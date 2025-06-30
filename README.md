@@ -40,7 +40,39 @@ OrchestraRAG is the orchestration layer that manages complex RAG workflows. It u
 ### 2. [Policy RAG Chat API](policy-rag-api/README.md)
 Policy RAG Chat API is a specialized RAG implementation for querying company policy documents. It provides document retrieval, session-aware memory, and summarization capabilities, which are leveraged by OrchestraRAG.
 
----
+
+Together, **OrchestraRAG** and **Policy RAG Chat API** provide the following capabilities:
+
+### Intelligent Question Answering
+- Retrieve relevant information from company policy documents using **policy-rag-api**.
+- Generate context-aware, conversational answers using **OrchestraRAG** workflows.
+
+### Stateful RAG Pipelines
+- Build multi-step workflows using **LangGraph** to handle complex queries.
+- Maintain conversational context across multiple questions using session-aware memory.
+
+### Dynamic Document Retrieval
+- Query and retrieve specific sections of policy documents in real-time.
+- Support live updates to policy documents without downtime.
+
+### Conversation Summarization
+- Summarize chat sessions for compliance, analytics, or user recaps.
+- Provide concise summaries of multi-step workflows.
+
+### Answer Evaluation
+- Assess the quality of responses based on relevance, fluency, and accuracy.
+- Retry workflows with caching disabled if relevance falls below a threshold.
+
+### Workflow Visualization
+- Generate Graphviz diagrams to visualize RAG workflows for debugging and optimization.
+
+### Extensibility
+- Easily integrate with external APIs, databases, or messaging platforms (e.g., Slack, Teams).
+- Customize prompts and workflows to suit specific business needs.
+
+
+
+
 
 ## 🏗️ Application Architecture
 
@@ -82,14 +114,48 @@ The Policy RAG Chat API supports various types of AI models, each specialized fo
 
 The **AI-Powered RAG Workflow System** is designed with enterprise scalability and security at its core, ensuring it meets the demands of modern organizations while safeguarding sensitive data.
 
+### **Scalability**
+- **Modular Architecture**: The system is built with a modular design, allowing each component (e.g., OrchestraRAG, Policy RAG Chat API) to scale independently based on workload. This ensures optimal resource utilization and performance.
+- **Redis-Backed Memory**: For session-aware workflows, the system leverages Redis for persistent memory storage, enabling horizontal scaling across multiple instances without losing conversational context.
+- **Efficient Caching**: Frequently accessed queries and responses are cached to reduce latency and improve throughput, ensuring a seamless user experience even under high traffic.
+- **Workflow Optimization**: The LangGraph-based orchestration in OrchestraRAG ensures efficient execution of multi-step workflows, minimizing processing overhead and maximizing response speed.
+
+### **Security**
+- **Completely Offline Deployment**: The system is designed to operate entirely offline, ensuring that no data is sent to external servers or the internet. This makes it ideal for air-gapped environments and organizations with strict data privacy requirements.
+- **Self-Hosted Models**: All AI models and vector stores are hosted locally, ensuring that sensitive data never leaves the organization’s infrastructure.
+- **Data Privacy Compliance**: The system adheres to enterprise-grade security standards, making it suitable for industries with stringent compliance requirements, such as healthcare, finance, and government.
+- **Access Control**: API endpoints can be secured with authentication and role-based access control (RBAC) to ensure that only authorized users can interact with the system.
+- **Audit Logging**: All queries, responses, and system actions are logged for auditing purposes, providing a transparent and traceable record of interactions.
+
+### **Why Offline Deployment Matters**
+In an era where data privacy and security are paramount, the ability to deploy a fully offline system is a significant advantage. By eliminating the need for internet access, the **AI-Powered RAG Workflow System** ensures:
+- **Data Sovereignty**: All data remains within the organization’s infrastructure, reducing the risk of data breaches or unauthorized access.
+- **Regulatory Compliance**: Offline deployment helps organizations comply with regulations like GDPR, HIPAA, and other data protection laws.
+- **Operational Continuity**: The system remains fully functional even in environments with limited or no internet connectivity, ensuring uninterrupted access to critical information.
+
+By combining scalability, security, and offline deployment, the **AI-Powered RAG Workflow System** provides a robust and reliable solution for enterprises looking to harness the power of AI while maintaining full control over their data.
+
 ---
 
 ## 🗂️ Workspace Structure
 
+
 ```text
 .
 ├── OrchestraRAG/                # Orchestration layer for RAG workflows
+│   ├── api/                     # FastAPI application and endpoints
+│   ├── core/                    # LangGraph-based workflow logic
+│   ├── config/                  # Configuration files
+│   ├── tests/                   # Unit tests
+│   ├── README.md                # Documentation for OrchestraRAG
+│   └── requirements.txt         # Dependencies for OrchestraRAG
 ├── policy-rag-api/              # Policy-focused RAG conversational API
+│   ├── cache_data/              # File-based response cache
+│   ├── config/                  # Configuration files
+│   ├── knowledgebase/           # Policy documents for retrieval
+│   ├── logs/                    # Log files
+│   ├── README.md                # Documentation for Policy RAG Chat API
+│   └── requirements.txt         # Dependencies for Policy RAG Chat API
 └── README.md                    # Main documentation (this file)
 ```
 
@@ -102,7 +168,68 @@ The **AI-Powered RAG Workflow System** is designed with enterprise scalability a
 - `pip` for dependency management
 - Graphviz (for workflow visualization in OrchestraRAG)
 
+### Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
+
+2. Set up virtual environments for both projects:
+   ```bash
+   # For OrchestraRAG
+   cd OrchestraRAG
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
+   pip install -r requirements.txt
+
+   # For Policy RAG Chat API
+   cd ../policy-rag-api
+   python -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+3. Configure environment variables and settings:
+   - Create `.env` files in both `OrchestraRAG` and `policy-rag-api` directories for secrets.
+   - Modify `settings.toml` or `config.json` as needed.
+
+### Container Deployment
+
+To simplify the deployment process, all services in the **AI-Powered RAG Workflow System** can be containerized and managed using Docker. Follow the steps below to build and run the containers:
+
+1. **Ensure Docker and Docker Compose Are Installed**:
+   - Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) on your system.
+
+2. **Build and Start All Services**:
+   Navigate to the root directory of the project (where the `docker-compose.yml` file is located) and run:
+   ```bash
+   docker-compose up --build
+   ```
+3. Access the Services
+
+- **OrchestraRAG**: Accessible at [http://localhost:8000](http://localhost:8000)  
+- **Policy RAG Chat API**: Accessible at [http://localhost:8011](http://localhost:8011)  
+- **Redis**: Runs on `localhost:6379` (used internally by the services)  
+- **Ollama Server**: Runs on `localhost:11434` (used internally by the services)
+
 ---
+
+4. Stop All Services
+
+To stop and remove all running containers, use the following command:
+
+```bash
+docker-compose down
+```
+5. Persistent Data
+
+- **Redis** data is stored in the `redis-data` volume.  
+- **Ollama models** are stored in the `ollama-models` volume.  
+
+These volumes ensure that data persists even after the containers are stopped.
+
+By using **Docker**, you can easily deploy and manage all components of the system in a consistent and isolated environment.
 
 ## 🛠️ Usage
 
@@ -119,6 +246,33 @@ python policy_rag_api.py
 ```
 
 ---
+
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a feature branch.
+3. Submit a pull request with a detailed description.
+
+---
+
+## License
+
+This workspace is licensed under the [MIT License](LICENSE).
+
+---
+## Future Enhancements
+
+To further enhance the functionality and usability of the system, the following extensions are planned or can be implemented:
+
+- **Web-Based Chat Interface**: Add a user-friendly web interface for real-time interaction with the RAG system.
+- **Customizable Personas**: Allow users to select chatbot personas tailored to specific domains like HR or IT.
+- **Slack or Microsoft Teams Integration**: Enable querying policies directly from workplace communication tools.
+- **Advanced Analytics Dashboard**: Build an admin dashboard to monitor system usage, query trends, and answer quality.
+- **Document Upload and Management Portal**: Create a portal for administrators to manage policy documents.
+- **Voice Assistant Integration**: Integrate with Alexa, Google Assistant, or custom voice interfaces for hands-free interaction.
+
 
 ## 🤝 Community & Acknowledgments
 
