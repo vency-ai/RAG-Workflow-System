@@ -1,0 +1,12 @@
+2025-06-19 16:26:11,195 - rag_pto_langserv - INFO - Loaded config from ./config/config.json
+2025-06-19 16:26:11,195 - rag_pto_langserv - INFO - Vectorstore already exists; skipping build.
+2025-06-19 16:26:12,347 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-19 16:26:12,566 - rag_pto_langserv - INFO - RAG chain initialized successfully.
+2025-06-19 16:27:08,881 - rag_pto_langserv - INFO - Loaded config from ./config/config.json
+2025-06-19 16:27:08,882 - rag_pto_langserv - INFO - Vectorstore already exists; skipping build.
+2025-06-19 16:27:09,718 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-19 16:27:09,936 - rag_pto_langserv - INFO - RAG chain initialized successfully.
+2025-06-19 16:31:59,814 - rag_pto_langserv - INFO - Loaded config from ./config/config.json
+2025-06-19 16:31:59,814 - rag_pto_langserv - INFO - Vectorstore already exists; skipping build.
+2025-06-19 16:32:00,706 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-06-19 16:32:00,928 - rag_pto_langserv - INFO - RAG chain initialized successfully.

@@ -1,0 +1,51 @@
+# requirements.txt
+
+# FastAPI and Uvicorn for the web server
+fastapi==0.115.12
+uvicorn==0.34.3
+
+# LangGraph for building the stateful LLM application
+langgraph==0.4.9
+
+# LangChain components, often used with LangGraph
+# Note: 'file:///' paths indicate local/development builds.
+# For production, it's best to use stable PyPI versions.
+# Using the specified versions where possible, or common stable ones.
+langchain-community==0.3.25
+langchain-core==0.2.14 # A common compatible version, as your output had a local build
+
+# Other LangGraph ecosystem packages found in your environment.
+# Include these if your project explicitly uses features from them,
+# otherwise, they might be transitive dependencies and could potentially be omitted
+# for a leaner production image if not directly needed by your code.
+langgraph-api==0.2.64
+langgraph-checkpoint==2.1.0
+langgraph-cli==0.3.3
+langgraph-prebuilt==0.2.2
+langgraph-runtime-inmem==0.3.3
+langgraph-sdk==0.1.70
+
+# Pydantic for data validation and state management
+pydantic==2.11.6
+pydantic-settings==2.9.1 # Useful for config management, as discussed
+
+# For HTTP requests to external services (e.g., your RAG service)
+# Using a common stable version as your output had a local build.
+requests==2.32.3
+requests-oauthlib==2.0.0
+requests-toolbelt==0.10.1 # Using a common stable version, as your output had a local build.
+
+# For TOML configuration file parsing
+tomli==2.0.1 # Using the specified version.
+
+# For graph visualization
+graphviz==0.21
+
+# For loading environment variables from .env files
+python-dotenv==1.1.0
+
+# You might also want these for development/testing (uncomment if needed):
+# black==24.4.2
+# ruff==0.4.7
+# pytest==8.2.2
+# pytest-asyncio==0.23.7

@@ -1,0 +1,51 @@
+{
+  "ollama": {
+    "base_url": "http://127.0.0.1:11434",
+    "embedding_model": "mxbai-embed-large:latest",
+    "chat_model": "llama3:8b",
+    "temperature": 0.1,
+    "max_tokens": 512
+  },
+  "document_processing": {
+    "input_file": "pto-policy.md",
+    "chunk_size": 1000,
+    "chunk_overlap": 100,
+    "encoding": "utf-8"
+  },
+  "retrieval": {
+    "search_type": "similarity",
+    "search_k": 4
+  },
+  "text_splitting": {
+    "headers_to_split": [
+      {"level": "#", "name": "Header 1"},
+      {"level": "##", "name": "Header 2"},
+      {"level": "###", "name": "Header 3"},
+      {"level": "####", "name": "Header 4"}
+    ],
+    "separators": ["\n\n", "\n", "|", " ", ""],
+    "keep_separator": true,
+    "strip_headers": false
+  },
+  "regex_patterns": {
+    "table_alignment": "\\n\\s*\\|",
+    "broken_table_rows": "\\|\\s*\\n\\s*\\|",
+    "excessive_whitespace": "\\n{3,}",
+    "response_whitespace": "\\n\\s*\\n\\s*\\n",
+    "table_formatting": "\\|\\s*\\n\\s*\\|"
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  },
+  "prompts": {
+    "system_template": "You are a helpful assistant that answers questions based on the provided context.\nPay special attention to tables, lists, and structured data in the context.\n\nContext:\n{context}\n\nQuestion: {question}\n\nInstructions:\n- Answer based only on the provided context\n- If the answer involves tabular data, format it as a proper markdown table\n- If information is not in the context, say \"I don't have that information in the provided context\"\n- Be precise and include relevant details from the context\n\nAnswer:",
+    "source_format": "=== Source {index}{section_info} ===\n{content}",
+    "no_context_response": "I don't have that information in the provided context"
+  },
+  "sample_queries": [
+    "What is the policy for Jury Duty? Include any relevant tables.",
+    "What are the vacation day policies?",
+    "How many sick days are allowed per year?"
+  ]
+}

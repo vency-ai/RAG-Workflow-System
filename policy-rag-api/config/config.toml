@@ -1,0 +1,177 @@
+# ===============================
+# PTO Policy RAG Chat API - Config
+# ===============================
+# This is the main configuration file for the PTO Policy RAG Chat API.
+# All major system behaviors (data loading, model selection, caching, logging, evaluation, etc.)
+# are controlled here. TOML format supports comments and makes nesting and multi-line prompts easy.
+# ===============================
+
+# -------------
+# Data Section
+# -------------
+[data]
+# Directory containing your PTO policy markdown file(s)
+kb_dir = "knowledgebase"
+# Name of the PTO policy markdown file within 'kb_dir'
+markdown_file = "pto-policy.md"
+# Max characters per chunk when splitting documents for retrieval
+split_chunk_size = 1000
+
+# ------------------
+# Embedding Section
+# ------------------
+[embedding]
+# Embedding model to use for document chunk vectors (e.g. Ollama or compatible)
+embedding_model = "mxbai-embed-large:latest"
+# Path for storing the local vectorstore (e.g., ChromaDB or FAISS)
+vectorstore_dir = "chroma_db"
+# Number of top retrieved chunks to use for each answer
+retriever_k = 4
+
+# -------------
+# LLM Section
+# -------------
+[llm]
+# Base URL for your Ollama server (or LLM endpoint)
+ollama_base_url = "http://127.0.0.1:11434"
+# Default LLM model to use (can be overridden per request)
+llm_model_name = "llama3.2"
+# Sampling temperature for the LLM (controls randomness, 0.0 = deterministic)
+llm_temperature = 0.0
+
+# ---------------
+# Cache Section
+# ---------------
+[cache]
+# Directory where the cache file will be stored
+cache_dir = "cache_data"
+# Name of the JSONL file containing cached responses
+cache_file = "response_cache.jsonl"
+# Time-to-live for each cache entry (in seconds), default is 604800 (1 week)
+file_cache_ttl = 604800
+
+# ----------------
+# Server Section
+# ----------------
+[server]
+# Host address for FastAPI server
+fastapi_host = "127.0.0.1"
+# Port for FastAPI server
+fastapi_port = 8080
+
+# -----------------
+# Logging Section
+# -----------------
+[logging]
+# Directory where log files are stored
+logs_dir = "logs"
+# Log file name for main API/server logs
+log_file = "rag_pto_langserv_mem.log"
+
+# -------------------------
+# LangChain Logging Section
+# -------------------------
+[langchain_logging]
+# Directory for LangChain callback event logs
+logs_dir = "logs"
+# Log file name for LangChain events
+file_log_name = "langchain_events.log"
+# Enable/disable LangChain callback instrumentation/logging
+active = false
+
+# ---------------
+# Memory Section
+# ---------------
+[memory]
+# Redis server URL for persistent chat memory (optional, fallback is in-memory)
+redis_url = "redis://localhost:6379/0"
+# Default session ID for chat memory (typically set via header instead)
+session_id = "test-session"
+
+# -----------------
+# Prompts Section
+# -----------------
+# List of prompt templates. Each prompt defines a persona or answer style.
+# You can set a default template and add more styles as needed.
+# Placeholders: {context}, {chat_history}, {question}
+[[prompts]]
+name = "strict_policy"
+default = true
+template = """
+You are a helpful HR assistant. Use only the context from the PTO Policy below to answer the question. If the answer is not in the context, state clearly: "I do not know based on the provided PTO policy."
+
+PTO Policy Context:
+{context}
+
+Chat History:
+{chat_history}
+
+Question:
+{question}
+
+Answer (cite policy sections if possible):
+"""
+
+[[prompts]]
+name = "friendly_hr"
+default = false
+template = """
+You are a friendly HR assistant. Try to answer the users question based on the PTO Policy context. If you cant find the answer, say: "Im not sure from the current policy, but I recommend contacting HR for more details."
+
+PTO Policy Context:
+{context}
+
+Chat History:
+{chat_history}
+
+Question:
+{question}
+
+Answer:
+"""
+
+# -----------------
+# Evaluation Section
+# -----------------
+[evaluation]
+# Model used for answer evaluation (can differ from main LLM)
+model = "phi4"
+# Ollama endpoint for evaluation LLM
+ollama_base_url = "http://localhost:11434"
+# Directory for evaluated cache file (typically same as main cache)
+cache_dir = "cache_data"
+# File where evaluated cache entries are stored
+cache_file = "response_cache.jsonl"
+
+# Prompts for each evaluation metric.
+# Each prompt should instruct the LLM to return a single integer between 1-5.
+[evaluation.prompts]
+# Fluency: Grammar, clarity, and readability.
+fluency = """Evaluate the following answer for fluency (grammar, clarity, and readability). Rate from 1 (very poor) to 5 (excellent). Reply with only a single integer (1-5), no explanation or extra text.
+Answer:
+{answer}
+Score:"""
+
+# Faithfulness: Does the answer accurately reflect the provided sources, or does it hallucinate?
+faithfulness = """Evaluate the following answer for faithfulness to the provided sources. Rate from 1 (completely unfaithful or hallucinated) to 5 (fully faithful and supported by the sources). Reply with only a single integer (1-5), no explanation or extra text.
+Answer:
+{answer}
+Sources:
+{sources}
+Score:"""
+
+# Relevance: Is the answer on-topic for the question and sources?
+relevance = """Evaluate the following answer for relevance to the given question and sources. Rate from 1 (irrelevant) to 5 (highly relevant and on-topic). Reply with only a single integer (1-5), no explanation or extra text.
+Question:
+{question}
+Answer:
+{answer}
+Sources:
+{sources}
+Score:"""
+
+# Conciseness: Is the answer succinct, without unnecessary information?
+conciseness = """Evaluate the following answer for conciseness (succinctness, no unnecessary information). Rate from 1 (verbose or contains irrelevant details) to 5 (very concise and to the point). Reply with only a single integer (1-5), no explanation or extra text.
+Answer:
+{answer}
+Score:"""

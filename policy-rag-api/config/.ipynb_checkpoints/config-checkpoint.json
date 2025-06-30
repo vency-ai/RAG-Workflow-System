@@ -1,0 +1,63 @@
+{
+  "data": {
+    "kb_dir": "knowledgebase", 
+    "markdown_file": "pto-policy.md",
+    "split_chunk_size": 1000
+  },
+  "embedding": {
+    "embedding_model": "mxbai-embed-large:latest",
+    "vectorstore_dir": "chroma_db",
+    "retriever_k": 4
+  },
+  "llm": {
+    "ollama_base_url": "http://127.0.0.1:11434",
+    "llm_model_name": "llama3.2",
+    "llm_temperature": 0.0
+  },
+  "cache": {
+    "cache_dir": "cache_data",
+    "cache_file": "response_cache.jsonl",
+    "file_cache_ttl": 604800
+  },
+  "server": {
+    "fastapi_host": "127.0.0.1",
+    "fastapi_port": 8080
+  },
+  "logging": {
+    "logs_dir": "logs",
+    "log_file": "rag_pto_langserv_mem.log"
+  },
+  "langchain_logging": {
+    "logs_dir": "logs",
+    "file_log_name": "langchain_events.log",
+    "active": false
+  },
+  "memory": {
+    "redis_url": "redis://localhost:6379/0",
+    "session_id": "test-session"
+  },
+  "prompts": [
+    {
+      "name": "strict_policy",
+      "default": true,
+      "template": "You are a helpful HR assistant. Use only the context from the PTO Policy below to answer the question. If the answer is not in the context, state clearly: \"I do not know based on the provided PTO policy.\"\n\nPTO Policy Context:\n{context}\n\nChat History:\n{chat_history}\n\nQuestion:\n{question}\n\nAnswer (cite policy sections if possible):"
+    },
+    {
+      "name": "friendly_hr",
+      "default": false,
+      "template": "You are a friendly HR assistant. Try to answer the users question based on the PTO Policy context. If you cant find the answer, say: \"Im not sure from the current policy, but I recommend contacting HR for more details.\"\n\nPTO Policy Context:\n{context}\n\nChat History:\n{chat_history}\n\nQuestion:\n{question}\n\nAnswer:"
+    }
+  ],
+  "evaluation": {
+    "model": "phi4",
+    "ollama_base_url": "http://localhost:11434",
+    "cache_dir": "cache_data",
+    "cache_file": "response_cache.jsonl",
+    "prompts": {
+      "fluency": "Evaluate the following answer for fluency (grammar, clarity, and readability). Rate from 1 (very poor) to 5 (excellent). Reply with only a single integer (1-5), no explanation or extra text.\nAnswer:\n{answer}\nScore:",
+      "faithfulness": "Evaluate the following answer for faithfulness to the provided sources. Rate from 1 (completely unfaithful or hallucinated) to 5 (fully faithful and supported by the sources). Reply with only a single integer (1-5), no explanation or extra text.\nAnswer:\n{answer}\nSources:\n{sources}\nScore:",
+      "relevance": "Evaluate the following answer for relevance to the given question and sources. Rate from 1 (irrelevant) to 5 (highly relevant and on-topic). Reply with only a single integer (1-5), no explanation or extra text.\nQuestion:\n{question}\nAnswer:\n{answer}\nSources:\n{sources}\nScore:",
+      "conciseness": "Evaluate the following answer for conciseness (succinctness, no unnecessary information). Rate from 1 (verbose or contains irrelevant details) to 5 (very concise and to the point). Reply with only a single integer (1-5), no explanation or extra text.\nAnswer:\n{answer}\nScore:"
+    }
+  }
+}

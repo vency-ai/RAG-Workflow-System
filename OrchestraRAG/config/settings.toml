@@ -1,0 +1,33 @@
+# config/settings.toml
+# General application settings
+
+[app_settings]
+# General settings for the OrchestraRAG application itself.
+# use_emojis: Boolean. If true, various log messages and console outputs will
+# include decorative emojis for better visual distinction and readability.
+use_emojis = true # Enable/disable emojis in logs
+
+# enable_timeouts: Boolean. If false, HTTP client timeouts will be set to None,
+# allowing requests to wait indefinitely for a response.
+# CAUTION: Disabling timeouts can lead to resource exhaustion and system hangs
+# under network issues or unresponsive external services. Use with care.
+enable_timeouts = true # Set to false to disable timeouts
+
+# RAG Service configuration
+[rag_service]
+base_url = "http://localhost:8083" # Base URL for your RAG service
+max_rag_retries = 2 # Maximum number of times to retry RAG for a single question
+
+# API Timeouts in seconds
+rag_timeout_seconds = 360
+eval_timeout_seconds = 320
+clear_history_timeout_seconds = 130
+check_cache_timeout_seconds = 30
+summarize_timeout_seconds = 360
+eval_all_timeout_seconds = 760
+
+# Evaluation settings
+[evaluation]
+# Minimum relevance score (on a scale, e.g., 1-5) to consider an answer acceptable.
+# Answers below this threshold will trigger a retry (if retries remain).
+min_relevance_score = 3

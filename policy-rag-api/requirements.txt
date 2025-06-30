@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+langchain
+ollama
+redis
+pydantic
+python-dotenv
+httpx
+PyYAML
+markdown
+tiktoken
+chroma
+faiss-cpu
+toml
+aiofiles
+pandas

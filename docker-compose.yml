@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  orchestrarag:
+    build:
+      context: ./OrchestraRAG
+      dockerfile: Dockerfile
+    container_name: orchestrarag
+    ports:
+      - "8000:8000" # Expose OrchestraRAG API on port 8000
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - OLLAMA_HOST=ollama-server
+      - OLLAMA_PORT=11434
+    depends_on:
+      - redis
+      - ollama-server
+
+  policy-rag-api:
+    build:
+      context: ./policy-rag-api
+      dockerfile: Dockerfile
+    container_name: policy-rag-api
+    ports:
+      - "8011:8011" # Expose Policy RAG Chat API on port 8011
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+
+  redis:
+    build:
+      context: ./Redis
+      dockerfile: Dockerfile
+    container_name: redis
+    ports:
+      - "6379:6379" # Expose Redis on default port 6379
+    volumes:
+      - redis-data:/data # Persistent volume for Redis data
+
+  ollama-server:
+    build:
+      context: ./Ollama-Server
+      dockerfile: Dockerfile
+    container_name: ollama-server
+    ports:
+      - "11434:11434" # Expose Ollama server on port 11434
+    volumes:
+      - ollama-models:/root/.ollama/models # Persistent volume for Ollama models
+
+volumes:
+  redis-data:
+    driver: local
+  ollama-models:
+    driver: local

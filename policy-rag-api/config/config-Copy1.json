@@ -1,0 +1,19 @@
+{
+  "markdown_file": "pto-policy.md",
+  "ollama_base_url": "http://127.0.0.1:11434",
+  "embedding_model": "mxbai-embed-large:latest",
+  "vectorstore_dir": "chroma_db",
+   "retriever_k": 4,
+  "llm_model_name": "phi4",
+  "llm_temperature": 0.0,
+  "retriever_k": 4,
+  "split_chunk_size": 1000,
+  "cache_dir": "cache",
+  "cache_file": "rag_pto_reponse.json",    
+  "fastapi_host": "127.0.0.1",
+  "fastapi_port": 8080,
+  "logs_dir": "logs",
+  "log_file": "rag_pto_api.log",
+   "redis_url": "redis://localhost:6379/0",
+  "session_id": "test-session"   
+}

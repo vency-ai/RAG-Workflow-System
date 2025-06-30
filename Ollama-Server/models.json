@@ -1,0 +1,8 @@
+{
+    "models": [
+      "mxbai-embed-large:latest",
+      "llama3.2:latest",
+      "phi4:latest"
+    ]
+  }
+  
