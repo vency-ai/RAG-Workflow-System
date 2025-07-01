@@ -17,20 +17,37 @@
 The following Mermaid diagram illustrates the high-level workflow of OrchestraRAG, including single and multi-question processing:
 
 ```mermaid
-flowchart TD
-    START([START]) --> CQC[check_question_count]
-    CQC -->|multi| CSH[clear_session_history]
-    CQC -->|single| FNQ_S[fetch_next_question_single]
-    CSH --> FNQ_M[fetch_next_question_multi]
-    FNQ_M --> CRA_M[call_rag_api_multi]
-    CRA_M --> ATNQ_M[advance_to_next_question]
+graph TD
+    START[START]
+    CQC[check_question_count]
+    CSH[clear_session_history]
+    FNQ_S[fetch_next_question_single]
+    CHK_S[check_cache_single]
+    CRA_S[call_rag_api_single]
+    EVAL_S[eval_answer_single]
+    FNQ_M[fetch_next_question_multi]
+    CRA_M[call_rag_api_multi]
+    ATNQ_M[advance_to_next_question]
+    SUM_M[summarize_session_multi]
+    EVAL_M[eval_answer_multi]
+    END[END]
+
+    START --> CQC
+    CQC -->|multi| CSH
+    CQC -->|single| FNQ_S
+    CSH --> FNQ_M
+    FNQ_M --> CRA_M
+    CRA_M --> ATNQ_M
     ATNQ_M -->|more| FNQ_M
-    ATNQ_M -->|summarize| SUM_M[summarize_session_multi]
-    SUM_M --> EVAL_M[eval_answer_multi] --> END([END])
-    FNQ_S --> CHK_S[check_cache_single] --> CRA_S[call_rag_api_single]
-    CRA_S --> EVAL_S[eval_answer_single]
-    EVAL_S -->|retry| CRA_S
-    EVAL_S -->|done| END
+    ATNQ_M -->|summarize| SUM_M
+    SUM_M -->|then eval| EVAL_M
+    EVAL_M -->|done| END
+
+    FNQ_S --> CHK_S
+    CHK_S -->|cache decision leads to RAG API| CRA_S
+    CRA_S -->|eval after RAG call| EVAL_S
+    EVAL_S -->|relevance < 3, retry| CRA_S
+    EVAL_S -->|relevance >= 3 or retries exhausted| END
 ```
 
 
