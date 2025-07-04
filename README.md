@@ -20,6 +20,7 @@ docker-compose up --build
 # 3. Access the services
 # OrchestraRAG API:       http://localhost:8000
 # Policy RAG Chat API:    http://localhost:8011
+```
 
 This workspace contains two complementary projects, **OrchestraRAG** and **Policy RAG Chat API**, designed to work together to deliver intelligent, Retrieval-Augmented Generation (RAG) workflows for enterprise-grade question answering and document retrieval.
 
@@ -38,8 +39,6 @@ Built for scale and privacy, the system includes features like multi-session mem
 Designed with enterprise security in mind, it ensures compliance with internal and external data protection requirements—without sacrificing performance or user experience.
 
 The solution is built around two core components: OrchestraRAG, which orchestrates complex RAG workflows, and Policy RAG Chat API, which specializes in document retrieval and conversational AI for policy-related queries. Together, they provide a seamless, scalable, and secure platform for building intelligent chatbots, virtual assistants, and knowledge management systems.
-
-With features like multi-session memory, real-time document updates, hybrid search capabilities, and Conversation Summarization, it is tailored to meet the needs of modern enterprises. It improves accuracy, saves time, and boosts productivity by eliminating the friction of manual document searches. Designed with scalability and privacy in mind, it ensures compliance with enterprise security standards while delivering a superior user experience.
 
 ---
 
