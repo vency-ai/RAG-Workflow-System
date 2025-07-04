@@ -255,7 +255,7 @@ def evaluate_single_response(answer, question, sources):
     }
     return evaluation
 
-# --- Add this helper function for single answer evaluation ---
+# --- Add this helper function for single Answer Evaluation ---
 def evaluate_single_response1(answer, question, sources):
     """
     Evaluates a single Q&A for fluency, faithfulness, relevance, conciseness.
@@ -310,7 +310,7 @@ def evaluate_single_response1(answer, question, sources):
 async def invoke(request: Request):
     """
     Main API endpoint to process user questions.
-    Supports "eval": true in input for per-answer evaluation.
+    Supports "eval": true in input for per-Answer Evaluation.
     Compares evaluation scores of cache and fresh results (if both evaluated), 
     and keeps the one with better relevance.
     """

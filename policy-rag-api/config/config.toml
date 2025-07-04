@@ -134,7 +134,7 @@ Answer:
 # Evaluation Section
 # -----------------
 [evaluation]
-# Model used for answer evaluation (can differ from main LLM)
+# Model used for Answer Evaluation (can differ from main LLM)
 model = "phi4"
 # Ollama endpoint for evaluation LLM
 ollama_base_url = "http://localhost:11434"

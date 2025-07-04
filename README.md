@@ -1,4 +1,25 @@
 # AI-Powered RAG Workflow System
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)]()
+[![Docker](https://img.shields.io/badge/Containerized-Yes-green.svg)]()
+[![LangGraph](https://img.shields.io/badge/LangGraph-enabled-purple)](https://www.langgraph.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-✅-green)](https://fastapi.tiangolo.com/)
+
+---
+
+## ⚡ TL;DR (Quick Start)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/vency-ai/RAG-Workflow-System.git
+cd RAG-Workflow-System
+
+# 2. Run everything with Docker
+docker-compose up --build
+
+# 3. Access the services
+# OrchestraRAG API:       http://localhost:8000
+# Policy RAG Chat API:    http://localhost:8011
 
 This workspace contains two complementary projects, **OrchestraRAG** and **Policy RAG Chat API**, designed to work together to deliver intelligent, Retrieval-Augmented Generation (RAG) workflows for enterprise-grade question answering and document retrieval.
 
@@ -8,11 +29,17 @@ This workspace contains two complementary projects, **OrchestraRAG** and **Polic
 
 Organizations today generate and manage vast amounts of unstructured data, from policy documents and compliance guidelines to internal knowledge bases. However, accessing this information quickly and accurately remains a significant challenge. The AI-Powered RAG Workflow System addresses this gap by combining advanced Retrieval-Augmented Generation (RAG) techniques with enterprise-ready orchestration and document retrieval capabilities.
 
-This system is designed to empower enterprises with intelligent, context-aware tools for querying and managing their knowledge repositories. By leveraging state-of-the-art AI models and session-aware workflows, it enables users to retrieve precise, policy-grounded answers to their questions, complete with source citations. Whether it’s assisting employees with HR policies, ensuring compliance with regulatory standards, or streamlining access to organizational knowledge, this system delivers actionable insights in real-time.
+The AI-Powered RAG Workflow System empowers enterprises with intelligent, context-aware tools for querying and managing their knowledge repositories. By leveraging state-of-the-art AI models and session-aware workflows, it enables users to retrieve precise, policy-grounded answers to their questions, complete with source citations.
+
+Whether assisting employees with HR policies, ensuring compliance with regulatory standards, or streamlining access to organizational knowledge, the platform delivers actionable insights in real-time.
+
+Built for scale and privacy, the system includes features like multi-session memory, real-time document updates, hybrid search, and Conversation Summarization. These capabilities improve accuracy, save time, and enhance productivity by removing the friction of manual document searches.
+
+Designed with enterprise security in mind, it ensures compliance with internal and external data protection requirements—without sacrificing performance or user experience.
 
 The solution is built around two core components: OrchestraRAG, which orchestrates complex RAG workflows, and Policy RAG Chat API, which specializes in document retrieval and conversational AI for policy-related queries. Together, they provide a seamless, scalable, and secure platform for building intelligent chatbots, virtual assistants, and knowledge management systems.
 
-With features like multi-session memory, real-time document updates, hybrid search capabilities, and conversation summarization, this system is tailored to meet the needs of modern enterprises. It not only saves time and improves accuracy but also enhances productivity by eliminating the friction of manual document searches. Designed with scalability and privacy in mind, it ensures compliance with enterprise security standards while delivering a superior user experience.
+With features like multi-session memory, real-time document updates, hybrid search capabilities, and Conversation Summarization, it is tailored to meet the needs of modern enterprises. It improves accuracy, saves time, and boosts productivity by eliminating the friction of manual document searches. Designed with scalability and privacy in mind, it ensures compliance with enterprise security standards while delivering a superior user experience.
 
 ---
 
@@ -108,6 +135,10 @@ The Policy RAG Chat API supports various types of AI models, each specialized fo
 - **Summarization Models**:  
   For conversation or document summarization, the API can utilize models or chains optimized for condensing long text into concise summaries.
 
+**Model selection is configurable per request or in the configuration file, allowing you to tailor the API's performance and behavior to your organization's needs.**
+
+You can specify which model to use for answering, embedding, or evaluation by setting the `model` parameter in your API call, or by configuring defaults in `config.json` or `config.toml`.
+
 ---
 
 ## 🔒 Scalability and Security
@@ -160,19 +191,29 @@ By combining scalability, security, and offline deployment, the **AI-Powered RAG
 ```
 
 ---
+## 🔧 Tech Stack
+- Python 3.11
+- FastAPI
+- Redis
+- LangGraph + LangChain
+- Ollama (for self-hosted LLMs)
+- Graphviz (workflow rendering)
+- Docker & Docker Compose
 
 ## 🚀 Installation
 
 ### Prerequisites
-- Python 3.8+
+- Python 3.11+
 - `pip` for dependency management
-- Graphviz (for workflow visualization in OrchestraRAG)
+- Graphviz (for Workflow Visualization in OrchestraRAG)
 
-### Setup Instructions
+
+### Setup Components Instructions
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/vency-ai/RAG-Workflow-System.git
+   cd RAG-Workflow-System
+
    ```
 
 2. Set up virtual environments for both projects:
@@ -302,3 +343,4 @@ We are grateful to the open-source communities and forums that provided guidance
 ---
 
 Special thanks to all open-source contributors whose code and knowledge made this project possible! If you would like to contribute to this project, please feel free to submit a pull request or reach out to us with your ideas.
+

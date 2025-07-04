@@ -4,7 +4,7 @@ A robust Retrieval-Augmented Generation (RAG) conversational API for answering q
 
 The RAG Chat API is a modern, retrieval-augmented conversational system. It combines private, self-hosted LLM capabilities (via Ollama), document retrieval, and per-session chat memory to provide context-aware, policy-grounded answers and summaries for Company policy documents.
 
-It supports dynamic LLM model selection, live policy updates, conversation summarization, and detailed response metrics.
+It supports dynamic LLM model selection, live policy updates, Conversation Summarization, and detailed response metrics.
 
 ## ✨ Key Functional Features
 
@@ -171,7 +171,7 @@ template = """You are a helpful HR assistant. Only use the context from the Comp
 
 | Key              | Example Value             | Description                                                                 |
 |------------------|--------------------------|-----------------------------------------------------------------------------|
-| `model`          | `"phi4"`                 | Model used for answer evaluation.                                           |
+| `model`          | `"phi4"`                 | Model used for Answer Evaluation.                                           |
 | `ollama_base_url`| `"http://localhost:11434"` | Ollama endpoint for evaluation LLM.                                       |
 | `cache_dir`      | `"cache_data"`           | Directory for evaluated cache file.                                         |
 | `cache_file`     | `"response_cache.jsonl"` | File where evaluated cache entries are stored.                              |
@@ -527,7 +527,7 @@ These endpoints allow you to inspect, preview, and query document metadata—ena
 - **Use `/reload-data` after updating the Company policy file** to force chunking/vectorstore rebuild and view chunk stats.
 - **Use `/refresh_cache` at any time** to clear the file-based response cache.
 - **Use `/clear_session_history` to reset chat memory for a session.
-- **Use `/eval` and `/eval_clear` for managing answer evaluation metrics.
+- **Use `/eval` and `/eval_clear` for managing Answer Evaluation metrics.
 - **Use `/will_use_cache` to check/predict cache hits before invoking expensive LLM calls.
 - **Use new file management endpoints to preview, download, or filter documents by metadata for precise retrieval.**
 
@@ -542,7 +542,7 @@ See the [previous suggestions](#) for adding hybrid search, advanced memory, sum
 ## 🏁 Conclusion
 
 This application is a production-ready, RAG-powered API for Company policy chatbots, knowledge bases, and HR assistants.  
-It features robust document handling, session-aware memory, model flexibility, live policy updates, conversation summarization, manual vectorstore reload, efficient file-based response caching, per-session chat resets, and built-in answer evaluation and cache prediction—ready for enterprise deployment.
+It features robust document handling, session-aware memory, model flexibility, live policy updates, Conversation Summarization, manual vectorstore reload, efficient file-based response caching, per-session chat resets, and built-in Answer Evaluation and cache prediction—ready for enterprise deployment.
 
 ---
 
